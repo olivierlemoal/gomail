@@ -12,6 +12,13 @@ import (
     "github.com/emersion/go-smtp"
 )
 
+
+const (
+       testUser = "user"
+       testPwd  = "pwd"
+       testHost = "smtp.example.com"
+)
+
 const (
 	testPort    = 587
 	testSSLPort = 465
