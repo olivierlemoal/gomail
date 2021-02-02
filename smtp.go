@@ -142,13 +142,6 @@ func (d *Dialer) tlsConfig() *tls.Config {
 	return d.TLSConfig
 }
 
-func (d *Dialer) Options() *smtp.MailOptions {
-	if d.MailOptions == nil {
-		return &smtp.MailOptions{UTF8: true}
-	}
-	return d.MailOptions
-}
-
 func addr(host string, port int) string {
 	return fmt.Sprintf("%s:%d", host, port)
 }
@@ -171,8 +164,7 @@ type smtpSender struct {
 }
 
 func (c *smtpSender) Send(from string, to []string, msg io.WriterTo) error {
-	options := c.d.Options()
-	if err := c.Mail(from, options); err != nil {
+	if err := c.Mail(from, c.d.MailOptions); err != nil {
 		if err == io.EOF {
 			// This is probably due to a timeout, so reconnect and try again.
 			sc, derr := c.d.Dial()
